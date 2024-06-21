@@ -43,7 +43,7 @@ jobs:
 
       - name: wintest
         run: |
-          bash -c "reg query HKLM\SOFTWARE\Cygwin\setup /v rootdir"
+          bash -c "reg query 'HKLM\SOFTWARE\Cygwin\setup' /v rootdir"
         if: runner.os == 'Windows'
 
       - run: opam install -v . --with-test --deps-only
