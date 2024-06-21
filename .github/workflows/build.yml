@@ -43,7 +43,7 @@ jobs:
 
       - name: wintest
         run: |
-          bash -c "cat D:/cygwin/var/log/setup.log.full"
+          bash -c "cat D:/cygwin/etc/setup/setup.rc"
         if: runner.os == 'Windows'
 
       - run: opam install -v . --with-test --deps-only
