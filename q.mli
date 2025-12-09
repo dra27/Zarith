@@ -1,3 +1,4 @@
+@@portable
 (**
    Rationals.
 
@@ -21,7 +22,7 @@
 
 (** {1 Types} *)
 
-type t = {
+type t : immutable_data = {
     global_ num: Z.t; (** Numerator. *)
     global_ den: Z.t; (** Denominator, >= 0 *)
   }
