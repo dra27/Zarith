@@ -68,37 +68,37 @@ val minus_one: t
 external of_int: int -> t = "%identity"
 (** Converts from a base integer. *)
 
-external of_int32: int32 -> t = "ml_z_of_int32"
+external of_int32: local_ int32 -> t = "ml_z_of_int32"
 (** Converts from a 32-bit (signed) integer. *)
 
-external of_int64: int64 -> t = "ml_z_of_int64"
+external of_int64: local_ int64 -> t = "ml_z_of_int64"
 (** Converts from a 64-bit (signed) integer. *)
 
-external of_nativeint: nativeint -> t = "ml_z_of_nativeint"
+external of_nativeint: local_ nativeint -> t = "ml_z_of_nativeint"
 (** Converts from a native (signed) integer. *)
 
-val of_int32_unsigned: int32 -> t
+val of_int32_unsigned: local_ int32 -> t
 (** Converts from a 32-bit integer, interpreted as an unsigned integer.
     @since 1.13
  *)
 
-val of_int64_unsigned: int64 -> t
+val of_int64_unsigned: local_ int64 -> t
 (** Converts from a 64-bit integer, interpreted as an unsigned integer.
     @since 1.13
  *)
 
-val of_nativeint_unsigned: nativeint -> t
+val of_nativeint_unsigned: local_ nativeint -> t
 (** Converts from a native integer, interpreted as an unsigned integer..
      @since 1.13
  *)
 
-external of_float: float -> t = "ml_z_of_float"
+external of_float: local_ float -> t = "ml_z_of_float"
 (** Converts from a floating-point value.
     The value is truncated (rounded towards zero).
     Raises [Overflow] on infinity and NaN arguments.
  *)
 
-val of_string: string -> t
+val of_string: local_ string -> t
 (** Converts a string to an integer.
     An optional [-] prefix indicates a negative number, while a [+]
     prefix is ignored.
@@ -111,20 +111,20 @@ val of_string: string -> t
     syntactically correct representation of an integer.
  *)
 
-val of_substring : string -> pos:int -> len:int -> t
+val of_substring : local_ string -> pos:int -> len:int -> t
 (** [of_substring s ~pos ~len] is the same as [of_string (String.sub s
     pos len)]
     @since 1.4
 *)
 
-val of_string_base: int -> string -> t
+val of_string_base: int -> local_ string -> t
 (** Parses a number represented as a string in the specified base,
     with optional [-] or [+] prefix.
     The base must be between 2 and 16.
  *)
 
 external of_substring_base
-  : int -> string -> pos:int -> len:int -> t
+  : int -> local_ string -> pos:int -> len:int -> t
   = "ml_z_of_substring_base"
 (** [of_substring_base base s ~pos ~len] is the same as [of_string_base
     base (String.sub s pos len)]

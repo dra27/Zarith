@@ -22,8 +22,8 @@
 (** {1 Types} *)
 
 type t = {
-    num: Z.t; (** Numerator. *)
-    den: Z.t; (** Denominator, >= 0 *)
+    global_ num: Z.t; (** Numerator. *)
+    global_ den: Z.t; (** Denominator, >= 0 *)
   }
 (** A rational is represented as a pair numerator/denominator, reduced to
     have a non-negative denominator and no common factor.
@@ -99,7 +99,7 @@ type kind =
     whether the numerator and/or denominator is null.
  *)
 
-val classify: t -> kind
+val classify: local_ t -> kind
 (** Determines the kind of a rational. *)
 
 val is_real: t -> bool
@@ -109,6 +109,8 @@ val sign: t -> int
 (** Returns 1 if the argument is positive (including inf), -1 if it is
     negative (including -inf), and 0 if it is null or undefined.
  *)
+
+val compare__local : local_ t -> local_ t -> int
 
 val compare: t -> t -> int
 (** [compare x y] compares [x] to [y] and returns 1 if [x] is strictly
@@ -123,6 +125,8 @@ val compare: t -> t -> int
     OCaml's polymorphic comparison will NOT return a result consistent with
     the ordering of rationals.
  *)
+
+val equal__local : local_ t -> local_ t -> bool
 
 val equal: t -> t -> bool
 (** Equality testing.

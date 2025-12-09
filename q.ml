@@ -17,8 +17,8 @@
  *)
 
 type t = {
-    num: Z.t; (** Numerator. *)
-    den: Z.t; (** Denominator, >= 0 *)
+    global_ num: Z.t; (** Numerator. *)
+    global_ den: Z.t; (** Denominator, >= 0 *)
   }
 (* Type of rationals.
    Invariants:
@@ -104,7 +104,7 @@ type kind =
   | UNDEF  (* 0/0 *)
   | NZERO  (* non-special, non-0 *)
 
-let classify n =
+let classify (local_ n) =
   if n.den == Z.zero then
     match Z.sign n.num with
     | 1  -> INF
@@ -127,10 +127,12 @@ let sign x = Z.sign x.num
    sign -inf = -1
 *)
 
-let equal x y =
+let equal__local (local_ x) (local_ y) =
   (Z.equal x.num y.num) && (Z.equal x.den y.den) && (classify x <> UNDEF)
 
-let compare x y =
+let equal x y = equal__local x y
+
+let compare__local (local_ x) (local_ y) =
   match classify x, classify y with
   | UNDEF,UNDEF | INF,INF | MINF,MINF -> 0
   | UNDEF,_ -> -1
@@ -146,6 +148,8 @@ let compare x y =
       Z.compare
         (Z.mul x.num y.den)
         (Z.mul y.num x.den)
+
+let compare x y = compare__local x y
 
 let min a b = if compare a b <= 0 then a else b
 let max a b = if compare a b >= 0 then a else b

@@ -201,10 +201,10 @@ let shift_right_trunc x y =
   else
     c_shift_right_trunc x y
 
-external of_int32: int32 -> t = "ml_z_of_int32"
-external of_int64: int64 -> t = "ml_z_of_int64"
-external of_nativeint: nativeint -> t = "ml_z_of_nativeint"
-external of_float: float -> t = "ml_z_of_float"
+external of_int32: local_ int32 -> t = "ml_z_of_int32"
+external of_int64: local_ int64 -> t = "ml_z_of_int64"
+external of_nativeint: local_ nativeint -> t = "ml_z_of_nativeint"
+external of_float: local_ float -> t = "ml_z_of_float"
 
 let uint32_mask = pred (shift_left (of_int 1) 32)
 let of_int32_unsigned x = logand (of_int32 x) uint32_mask
@@ -227,7 +227,7 @@ external to_int32_unsigned: t -> int32 = "ml_z_to_int32_unsigned"
 external to_int64_unsigned: t -> int64 = "ml_z_to_int64_unsigned"
 external to_nativeint_unsigned: t -> nativeint = "ml_z_to_nativeint_unsigned"
 external format: string -> t -> string = "ml_z_format"
-external of_substring_base: int -> string -> pos:int -> len:int -> t = "ml_z_of_substring_base"
+external of_substring_base: int -> local_ string -> pos:int -> len:int -> t = "ml_z_of_substring_base"
 external compare: t -> t -> int = "ml_z_compare" [@@noalloc]
 external equal: t -> t -> bool = "ml_z_equal" [@@noalloc]
 external sign: t -> int = "ml_z_sign" [@@noalloc]
@@ -310,9 +310,11 @@ let gt a b = compare a b > 0
 
 let to_string = format "%d"
 
-let of_string s = of_substring_base 0 s ~pos:0 ~len:(String.length s)
+external string_length : local_ string -> int = "%string_length"
+
+let of_string s = of_substring_base 0 s ~pos:0 ~len:(string_length s)
 let of_substring = of_substring_base 0
-let of_string_base base s = of_substring_base base s ~pos:0 ~len:(String.length s)
+let of_string_base base s = of_substring_base base s ~pos:0 ~len:(string_length s)
 
 let ediv_rem a b =
   (* we have a = q * b + r, but [Big_int]'s remainder satisfies 0 <= r < |b|,
